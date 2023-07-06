@@ -1,2 +1,2 @@
 i#!/bin/basha
-chmod 100 hello
+chmod u+x hello
