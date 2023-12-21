@@ -1,4 +1,4 @@
-#!/bin/env bash
+#!/usr/bin/env bash
 # Bash script to display specific information from /etc/passwd
 
 while IFS=: read -r username _ userid _ _ home_directory _; do
