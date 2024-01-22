@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-# Bash script to display specific information from /etc/passwd
-
-while IFS=: read -r username _ userid _ _ home_directory _; do
-    # Display the required information
-    echo "$username:$userid:$home_directory"
-done < /etc/passwd
-
