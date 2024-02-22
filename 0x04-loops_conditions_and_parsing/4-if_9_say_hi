@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Bash script to display "Best School" 10 times, but display hi on 9th iteration
+
+counter=0
+while [ $counter -lt 10 ]; do
+     if [ $counter -eq 8 ]; then
+	echo "Best School"
+        echo "Hi"
+     else
+	echo "Best School"
+     fi
+ ((counter++))
+done
+
