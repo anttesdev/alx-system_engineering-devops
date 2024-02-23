@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Bash script to find and display lines containing the word "bash"
+# shellcheck disable=SC2009
+
+ps aux | grep bash
