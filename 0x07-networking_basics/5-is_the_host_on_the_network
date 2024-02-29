@@ -6,7 +6,6 @@ ip_address="$1"
 
 if [ "$#" -ne 1 ]; then
 	echo "Usage: $0 {IP_ADDRESS}"
-	exit 1
 else
 	ping -c 5 "$ip_address"
 fi
