@@ -1,4 +1,4 @@
-# kills a process killmenow
+# kills a process killmenow with this script
 
 exec { 'killmenow':
   path     => '/usr/bin',
