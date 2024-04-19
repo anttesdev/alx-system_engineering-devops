@@ -1,4 +1,4 @@
-# a file that installs flask
+# A file that installs flask
 
 package { 'flask':
   ensure   => '2.1.0',
