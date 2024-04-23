@@ -1,0 +1,13 @@
+#!/bin/bash
+# A script that redirects to 301
+apt-get -y update
+apt-get -y install nginx
+
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+
+sed -i '/location \/ {/{
+N
+s/location \/ {\n/&, location \/redirect_me {\n    return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n/
+}' /etc/nginx/sites-available/default
+
+service nginx restart
