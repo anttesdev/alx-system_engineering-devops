@@ -2,7 +2,7 @@
 # A script that installs nginx
 
 
-apt-get update
-apt-get install -y nginx
+apt-get -y update
+apt-get -y install nginx
 echo "Hello World!" > /var/www/html/index.html
 service nginx restart
