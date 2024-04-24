@@ -11,9 +11,14 @@ exec { 'Add the hello world':
   provider => shell,
 }
 
-# Configure redirection
-exec { 'configure_redirect':
-  command  => "/bin/sed -i 's/listen 80 default_server;/listen 80 default_server;\\n    location \\/redirect_me {\\n        return 301 https:\\/\\/www.youtube.com\\/watch?v=QH2-TGUlwu4;\\n    }\\n\\t/' /etc/nginx/sites-enabled/default",
-  path     => '/bin',
-  provider => shell,
+file_line { 'install':
+  ensure => 'present',
+  path   => 'etc/nginx/sites-enabled/default',
+  after  => 'listen 80 default_server;',
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
 }
+
+service { 'nginx':
+  ensure  => running,
+  require => package['nginx'],
+}  
