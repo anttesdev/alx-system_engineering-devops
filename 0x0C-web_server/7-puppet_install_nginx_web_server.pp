@@ -4,16 +4,21 @@ package { 'nginx':
 }
 
 exec { 'install nginx':
-  command => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
   provider => shell,
-  require => Package['nginx'],
+  require  => Package['nginx'],
+}
+exec {'Add the hello world':
+  command  => 'echo "Hello World!" > /var/www/html/index.html',
+  provider => shell,
 }
 
+
 exec { 'configure_redirect':
-  command => "/bin/sed -i 's/listen 80 default_server;/ \
-            listen 80 default_server;\\n\\trewrite ^\\/redirect_me \
+  command  => "/bin/sed -i 's/server_name _;/ \
+            server_name _;\\n\\trewrite ^\\/redirect_me \
             https:\\/\\/www.youtube.com\\/watch?v=QH2-TGUlwu4 permanent;/' \
             /etc/nginx/sites-enabled/default",
-  path        => '/bin',
-  provider    => shell,
+  path     => '/bin',
+  provider => shell,
 }
