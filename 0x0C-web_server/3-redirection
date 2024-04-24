@@ -1,14 +1,10 @@
-#!/bin/bash
-# A script that redirects to 301
+#!/usr/bin/env bash
+# A script that redirects to another page
+
 apt-get -y update
 apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-echo "Hello World!" > /var/www/html/index.nginx-debian.html
 
+new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;"
+sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
+service nginx restart
 
-sed -i '/location \/ {/{
-N
-s/location \/ {\n/&, location \/redirect_me {\n    return 301 https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4;\n/
-}' /etc/nginx/sites-available/default
-
-service nginx start
