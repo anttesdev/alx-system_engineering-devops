@@ -1,12 +1,11 @@
 # Install Nginx package
 package { 'nginx':
-  ensure => 'installed',
+  ensure => 'present',
 }
 
 exec { 'install nginx':
   command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
   provider => shell,
-  require  => Package['nginx'],
 }
 exec {'Add the hello world':
   command  => 'echo "Hello World!" > /var/www/html/index.html',
