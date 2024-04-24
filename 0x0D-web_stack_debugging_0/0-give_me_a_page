@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# A script that turns a bwebstack to a working state
+
+start apache2 inside docker
+service apache2 start
