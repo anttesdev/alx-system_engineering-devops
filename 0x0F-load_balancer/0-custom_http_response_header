@@ -10,6 +10,5 @@ sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 echo "Ceci n'est pas une page" > /var/www/html/error.html
 replace_string="listen 80 default_server;\n\terror_page 404 \/error.html;\n\tlocation = \/error.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 sudo sed -i "s/listen 80 default_server;/$replace_string/" /etc/nginx/sites-enabled/default
-sudo nginx -t
 sudo service nginx restart
 
