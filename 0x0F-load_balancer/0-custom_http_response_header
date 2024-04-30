@@ -5,12 +5,11 @@ apt-get -y install nginx
 ufw allow 'Nginx HTTP'
 echo "Hello World!" > /var/www/html/index.nginx-debian.html
 
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
+new_string="server_name _;\n\tadd_header X-Served-By \$hostname;n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
 sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
 echo "Ceci n'est pas une page" > /var/www/html/error.html
 replace_string="listen 80 default_server;\n\terror_page 404 \/error.html;\n\tlocation = \/error.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
 sudo sed -i "s/listen 80 default_server;/$replace_string/" /etc/nginx/sites-enabled/default
-sudo sed -i "/server_name _;/a \ add_header X-Served-By $(hostname);" /etc/nginx/sites-available/default
 sudo nginx -t
 sudo service nginx restart
 
