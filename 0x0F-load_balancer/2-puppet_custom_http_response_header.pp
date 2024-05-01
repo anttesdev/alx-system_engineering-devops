@@ -1,24 +1,22 @@
 #Add a custom header using puppet
 
 exec {'update':
-  provider => shell,
-  command  => 'sudo apt-get -y update',
-  before   => Exec['install Nginx'],
+  command  => 'apt-get -y update',
 }
 
-exec {'install Nginx':
-  provider => shell,
-  command  => 'sudo apt-get -y install nginx',
-  before   => Exec['add_header'],
+package {'nginx':
+  ensure  => installed,
+  require => Exec['update'],
 }
 
-exec { 'add_header':
-  provider => shell,
-  command  => 'sudo sed -i "s/include \/etc\/nginx\/sites-enabled\/\*;/include \/etc\/nginx\/sites-enabled\/\*;\n\tadd_header X-Served-By \"$hostname\";/" /etc/nginx/nginx.conf',
-  before   => Exec['restart Nginx'],
+file { '/etc/nginx/sites-available/default':
+  ensure  => present,
+  content => "# Custom HTTP header configuration\nserver {\n\tlisten 80 default_server;\n\tlisten [::]:80 default_server;\n\n\tserver_name _;\n\n\t# Add custom HTTP header\n\tadd_header X-Served-By \$hostname;\n\n\t# other configurations...\n}",
+  require => Package['nginx'],
 }
 
-exec { 'restart Nginx':
-  provider => shell,
-  command  => 'sudo service nginx restart',
+service { 'nginx':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/nginx/sites-available/default'],
 }
