@@ -9,14 +9,15 @@ package {'nginx':
   require => Exec['update'],
 }
 
-file { '/etc/nginx/sites-available/default':
-  ensure  => present,
-  content => "# Custom HTTP header configuration\nserver {\n\tlisten 80 default_server;\n\tlisten [::]:80 default_server;\n\n\tserver_name _;\n\n\t# Add custom HTTP header\n\tadd_header X-Served-By \$hostname;\n\n\t# other configurations...\n}",
+file_line { 'addHeader':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  after   => 'listen 80 default_server;',
+  line    => 'add_header X-Served-By $hostname;',
   require => Package['nginx'],
 }
 
 service { 'nginx':
-  ensure    => running,
-  enable    => true,
-  subscribe => File['/etc/nginx/sites-available/default'],
+  ensure  => running,
+  require => Package['nginx'],
 }
