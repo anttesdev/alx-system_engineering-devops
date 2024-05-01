@@ -3,13 +3,14 @@
 exec {'update':
   provider => shell,
   command  => 'sudo apt-get -y update',
+  before   => Exec['install Nginx'],
 }
 
-exec {'nginx':
+exec {'install Nginx':
   provider => shell,
   command  => 'sudo apt-get -y install nginx',
+  before   => Exec['add_header'],
 }
-
 
 exec { 'add_header':
   provider => shell,
@@ -17,7 +18,7 @@ exec { 'add_header':
   before   => Exec['restart Nginx'],
 }
 
-exec { 'restart service':
-  command  => 'sudo service nginx restart',
+exec { 'restart Nginx':
   provider => shell,
+  command  => 'sudo service nginx restart',
 }
