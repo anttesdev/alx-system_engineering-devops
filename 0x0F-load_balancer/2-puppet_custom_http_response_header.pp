@@ -9,7 +9,22 @@ package {'nginx':
   require => Exec['update'],
 }
 
-file_line { 'addHeader':
+file { '/var/www/html/index.html':
+  ensure  => 'present',
+  path    => '/var/www/html/index.html',
+  content => 'Holberton School',
+  require => Package['nginx'],
+}
+
+file_line { 'add a redirect me directive':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  after   => 'listen 80 default_server;',
+  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+  require => Package['nginx'],
+}
+
+file_line { 'add a header':
   ensure  => 'present',
   path    => '/etc/nginx/sites-available/default',
   after   => 'listen 80 default_server;',
