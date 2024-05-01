@@ -1,38 +1,21 @@
 #Add a custom header using puppet
 
 exec {'update':
-  command  => 'apt-get -y update',
+  provider => shell,
+  command  => 'sudo apt-get -y update',
 }
 
-package {'nginx':
-  ensure  => installed,
-  require => Exec['update'],
+exec {'nginx':
+  provider => shell,
+  command  => 'sudo apt-get -y install nginx',
 }
 
-file { '/var/www/html/index.html':
-  ensure  => 'present',
-  path    => '/var/www/html/index.html',
-  content => 'Hello World!',
-  require => Package['nginx'],
+exec {'add header':
+  provider => shell,
+  command  => 'sudo sed -i "s/server_name _;/server_name _;\n\tadd_header X-Served-By \$hostname;/" /etc/nginx/sites-available/default',
 }
 
-file_line { 'add a redirect me directive':
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'listen 80 default_server;',
-  line    => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
-  require => Package['nginx'],
-}
-
-file_line { 'add a header':
-  ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  after   => 'listen 80 default_server;',
-  line    => 'add_header X-Served-By $hostname;',
-  require => Package['nginx'],
-}
-
-service { 'nginx':
-  ensure  => running,
-  require => Package['nginx'],
+exec { 'restart service':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }
