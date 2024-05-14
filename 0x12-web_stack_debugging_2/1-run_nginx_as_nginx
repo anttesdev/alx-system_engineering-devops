@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # A scrpit that runs nginx as the nginx instead of root inorder to protect the webserver
 
-service nginx stop
-sed -i 's/user root;/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/listen 80;/listen 8080;/g' /etc/nginx/sites-available/default
-service nginx start
+chown nginx:nginx /etc/nginx/nginx.conf
+sed -i "s/80/8080/g" /etc/nginx/sites-available/default
+chmod 644 /etc/nginx/nginx.conf
+pkill apache2
+sudo -u nginx service nginx start
