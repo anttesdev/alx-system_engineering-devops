@@ -26,13 +26,11 @@ def employee_export_csv(employee_id):
     employee_name = (
                      requests.get(
                          'https://jsonplaceholder.typicode.com/users/{}'
-                         .format(employee_id)).json().get('name')
+                         .format(employee_id)).json().get('username')
                      )
     filename = '{}.csv'.format(employee_id)
     with open(filename, 'w', newline='') as csvfile:
-        fieldnames = ['USER_ID', 'USERNAME',
-                      'TASK_COMPLETED_STATUS', 'TASK_TITLE']
-        writer = csv.writer(csvfile , quoting=csv.QUOTE_ALL)
+        writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
         for task in todo_list:
             writer.writerow([
                 employee_id,
@@ -40,6 +38,7 @@ def employee_export_csv(employee_id):
                 str(task['completed']),
                 task['title']
             ])
+
 
 if __name__ == '__main__':
     employee_export_csv(sys.argv[1])
