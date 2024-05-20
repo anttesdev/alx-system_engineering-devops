@@ -35,7 +35,9 @@ def fetch_employee_todo_list(employee_id):
           .format(employee_name, completed_tasks, total_tasks))
     for task in todo_list:
         if task['completed']:
-            print("\t{}".format(task['title']))
+            completed_title = task['title']
+            formatted_task_title = "\t " + completed_title
+            print(formatted_task_title)
 
 
 if __name__ == '__main__':
