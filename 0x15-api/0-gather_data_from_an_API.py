@@ -5,7 +5,7 @@ returns information about his/her TODO list progress.
 """
 
 import requests
-from sys import argv
+import sys
 
 
 def fetch_employee_todo_list(employee_id):
@@ -39,4 +39,4 @@ def fetch_employee_todo_list(employee_id):
 
 
 if __name__ == '__main__':
-    fetch_employee_todo_list(argv[1])
+    fetch_employee_todo_list(sys.argv[1])
