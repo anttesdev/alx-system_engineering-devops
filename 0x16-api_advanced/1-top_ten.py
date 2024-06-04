@@ -14,7 +14,7 @@ def top_ten(subreddit):
     the titles of the first 10 hot posts listed for a given subreddit
     """
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    headers = {"User-Agent": "custom"}
+    headers = {"User-Agent": "Mozilla/5.0"}
     params = {"limit": 10}
 
     try:
