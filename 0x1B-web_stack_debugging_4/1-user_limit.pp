@@ -2,13 +2,13 @@
 
 #issue is hardfile and soft file open file limit
 exec { 'hard file limit increase':
-  command  => 'sed -i "/holberton hard/s/5/50000/" /etc/security/limits.conf',
+  command  => 'sed -i "s/nofile 5/nofile 50000/" /etc/security/limits.conf',
   path     => '/usr/local/bin/:/bin/'
   provider => shell,
 }
 
 exec { 'soft file limit increase':
-  command  => 'sed -i "/holberton soft/s/4/50000/" /etc/security/limits.conf',
+  command  => 'sed -i "s/nofile 4/nofile 40000/" /etc/security/limits.conf',
   path     => '/usr/local/bin/:/bin/'
   provider => shell,
 }
